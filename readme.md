@@ -4,10 +4,10 @@ hspc.exeを使って、linterにエラーなどを通知するパッケージで
 ## パッケージの導入方法
 1. このパッケージの前提となるatomパッケージの [linter](https://atom.io/packages/linter) もしくは、[atom-ide-ui](https://ide.atom.io/) または、[Nuclide](https://nuclide.io/) をインストールしてください。Atomに詳しくない場合、atom-ide-uiを推奨します。
 2. apmを使用する場合、以下のコマンドを実行してください。  
-   ```bash
-   $ apm install linter-hsp3
-   ```
-   GUIからインストールする場合、Atomの設定画面「install」項目から「linter-hsp3」を検索して、installしてください。
+  ```bash
+  $ apm install linter-hsp3
+  ```
+  GUIからインストールする場合、Atomの設定画面「install」項目から「linter-hsp3」を検索して、installしてください。
 3. HSP3をインストールしたディレクトリ（つまり、hspcmp.dllがある場所）に、[hspc.exe](http://dev.onionsoft.net/seed/info.ax?id=1392)  を導入してください。
 4. linter-hsp3にhspc.exeのパスを設定します。パッケージ詳細画面にある「Compiler Settings」の「Compiler path」にhspc.exeの絶対を設定してください。
 5. Atomを再起動します。（または、<kbd>Ctrl-Shift-F5</kbd>キーを押す）
