@@ -1,7 +1,27 @@
 # linter-hsp3
-HSP3のリンターもどきです。
+hspc.exeを使って、linterにエラーなどを通知するパッケージです。
 
-## 開発について
+## パッケージの導入方法
+1. このパッケージの前提となるatomパッケージの [linter](https://atom.io/packages/linter) もしくは、[atom-ide-ui](https://ide.atom.io/) または、[Nuclide](https://nuclide.io/) をインストールしてください。Atomに詳しくない場合、atom-ide-uiを推奨します。
+2. apmを使用する場合、以下のコマンドを実行してください。
+   ```bash
+   $ apm install linter-hsp3
+   ```
+   GUIからインストールする場合、Atomの設定画面「install」項目から「linter-hsp3」を検索して、installしてください。
+3. HSP3をインストールしたディレクトリ（つまり、hspcmp.dllがある場所）に、[hspc.exe](http://dev.onionsoft.net/seed/info.ax?id=1392)  を導入してください。
+4. linter-hsp3にhspc.exeのパスを設定します。パッケージ詳細画面にある「Compiler Settings」の「Compiler path」にhspc.exeの絶対を設定してください。
+5. Atomを再起動します。（または、<kbd>Ctrl-Shift-F5</kbd>キーを押す）
+
+## 主な機能と動作
+linter-hsp3は、hspファイルまたは、asファイルを保存（<kbd>Ctrl-s</kbd>）するごとに、hspc.exeにコンパイルさせます。コンパイルが失敗したら、linterに通知します。表示はlinterのGUIに委ねられます。
+
+hspc.exeは、コンパイルに成功した場合、axファイルを出力します。このファイルはストレージに保存されます。linter-hsp3を導入すると、hsp,asファイルを保存するたびに、axファイルが作成、保存される場合があることに留意してください。
+
+既定値では、axファイルは「obj」ファイル名で保存されます。
+
+hspc.exeのバージョン1.4.1以降には、Dオプションが実装されました。このオプションを有効化するには、パッケージの設定画面「Command option」の一文字オプションに**D**文字を挿入するだけです。
+
+## パッケージ開発について
 パッケージ開発者は、**node.js**、**npm** と **python 2.7系** のインストールが必要です。
 インストール後、パスを通してください。
 
@@ -25,6 +45,9 @@ HSP3のリンターもどきです。
 ### 既知の不具合
 * ファイルパスに空白があると、hspcがソースファイルを見つけられない。
   * 空白文字バイナリの変化？
+* エラーを指摘している文字列が文字化けする。
+  * hspc.exeがUTF-8出力に対応していないため、この不具合が発生しています。申し訳ございませんが、解決は未定です。
+  * 回避策は、ソースファイルのコードページをShift_JISに固定することです。hspc.exeは、Shift_JISでコンソールに出力しています。
 
 ## 使用したコードとライセンス表記
 

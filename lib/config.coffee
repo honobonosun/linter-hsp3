@@ -19,7 +19,7 @@ module.exports =
           title: 'Command option'
           description: 'コマンド オプション'
           type: 'array'
-          default: ['-oobj', '-CaE', '%FILEPATH%']
+          default: ['-oobj', '-CaEI', '%FILEPATH%']
 
         maxLogBuffer:
           order: 3
@@ -41,12 +41,6 @@ module.exports =
           title: '未初期化変数の表示'
           type: 'boolean'
           default: true
-
-        FlapStringLength:
-          order: 2
-          title: 'linterのテキストで折り返し表示'
-          type: 'integer'
-          default: 40
 
   get:
     replace: (arr) ->
@@ -73,5 +67,3 @@ module.exports =
 
     ShowUninitializedVariable: ->
       atom.config.get('linter-hsp3.option').ShowUninitializedVariable
-    FlapStringLength: ->
-      atom.config.get('linter-hsp3.option').FlapStringLength

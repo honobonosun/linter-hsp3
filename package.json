@@ -1,7 +1,7 @@
 {
   "name": "linter-hsp3",
   "main": "./lib/index",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "HSP3 Linter Package",
   "keywords": [

@@ -6,9 +6,18 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - [x]必要な情報をhspc.exeに吐かせる。
-- [ ]atom.ioに登録する。
+- [x]atom.ioに登録する。
 
 ### Changed
+
+## 0.0.2
+- atom.ioパッケージへ公開です。
+
+## 0.0.1
+- 既定でIオプションを有効化しました。
+- readme.mdを編集しました。
+- 相対パス指定のcommonディレクトリのソースファイルに対してエラー表示できるようになりました。
+- 不必要になった設定項目を削除しました。
 
 ## 0.0.0
 - GitHub.comに公開。

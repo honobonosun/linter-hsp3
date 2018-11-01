@@ -26,14 +26,54 @@ module.exports =
   claimFullPath: (textEditor, filepath) ->
     path = require 'path'
     fs = require 'fs'
+
+    console.log "claim path #{filepath}" if atom.inDevMode()
+
+    # 渡されたfilepath引数は絶対パスか？
     if path.isAbsolute(filepath) is false
-      file = path.resolve(path.dirname(textEditor.getPath()) ,filepath)
+      # まずは、カレントディレクトリのパスを繋げてファイルがあるか試してみる
+      file = path.resolve(path.dirname(textEditor.getPath()), filepath)
       try
         fs.accessSync(file, fs.constants.R_OK)
-        return file
+        return file # ファイルがあったので、絶対パスを返す
       catch
-        # todo : common ディレクトリの可能性を探る
-        return undefined
+        console.log 'not current directory' if atom.inDevMode()
+        # commonディレクトリの可能性を探る
+
+        # 本当は、hspc.exeのIオプションの値を見るべきだが、hspcOnWineOnLinux
+        # だと、Wine内部で使われるWindows形式なパスが返ってくる。
+        # なので、パッケージ設定画面でLinux側の絶対パスを取得して、nodejsのpathライブラリで分解する。
+        # wine前提なので、config.get.pathには"wine"と書かれていることにする。
+        # config.get.lintCommand[0]にhspc.exeの絶対パスが書かれていることにする。
+
+        # まず、String.toLowerCaseが正しく機能するか調べる
+        manualLowercase = (s) ->
+          s.replace(/[A-Z]/g, (ch) -> String.fromCharCode(ch.charCodeAt(0) | 32))
+        flag = false
+        if 'i' != 'I'.toLowerCase()
+          flag = true if manualLowercase(Config.get.path()) is 'wine'
+        else
+          flag = true if Config.get.path().toLowerCase()
+        # HSP3のcommonディレクトリを取得する
+        if flag is true
+          console.log 'wine mode' if atom.inDevMode()
+          hspcPath = Config.get.lintCommand()[0]
+          commonDir = path.join(path.dirname(hspcPath), '/common/')
+        else
+          console.log 'windows mode' if atom.inDevMode()
+          commonDir = path.join(path.dirname(Config.get.path()), '/common/')
+        console.log "hsp3 common dir (#{commonDir})" if atom.inDevMode()
+
+        # commonディレクトリとパスを繋げる
+        fullPath = path.join(commonDir, filepath)
+        console.log fullPath if atom.inDevMode()
+        try
+          fs.accessSync(fullPath)
+          return fullPath
+        catch
+          console.log 'not common directory' if atom.inDevMode()
+          return undefined  # 絶対パスが本当に分からない...
+
     else
       return filepath
 
@@ -45,12 +85,11 @@ module.exports =
       else
         return fs.readFileSync(file).toString().split(/\n/)
     catch error
-      console.log "linter-hsp3 file read error."
-      console.log error
+      console.log "linter-hsp3 file read error." if atom.inDevMode()
+      console.log error if atom.inDevMode()
       return undefined
 
   excerpt: (str, word) ->
-    #if (str.length + word.length) > Config.get.FlapStringLength()
     if word?
       "#{str}(#{word})"
     else
@@ -105,9 +144,11 @@ module.exports =
     filepath = @claimFullPath(textEditor, revalue.file)
     return unless filepath?
 
-    # 問題を起こした文字列を指摘する。
+    # ソースファイルを配列で取得する
     sourceArray = @ToFileArray(filepath, codepage)
-    console.log sourceArray
+    console.log sourceArray if atom.inDevMode()
+
+    # 問題を起こした文字列を指摘する。
     sourceLine = sourceArray[revalue.line]
     regexp = new RegExp(@regexpWordEscape(revalue.word),'ig')
     i = sourceLine.search(regexp)
@@ -218,7 +259,7 @@ module.exports =
     if revalue.case is 2
       # "スクリプトファイルが見つかりません"を解析する
       revalue2 = /#Error: in line (\d+) \[(.+)]/i.exec(strArray[index+1])
-      console.log revalue2
+      console.log revalue2 if atom.inDevMode()
       line = Number(revalue2[1])-1
       # 絶対パスへ変換
       filepath = @claimFullPath(textEditor, revalue2[2])
@@ -298,14 +339,14 @@ module.exports =
           dismissable: false
         }
       )
-      console.log error
+      console.log error if atom.inDevMode()
       return null
     strArray = convertToUTF8(reval).split(/\n/)
-    console.log strArray
+    console.log strArray if atom.inDevMode()
 
     # コードページを取得する
     codepage = @FindCodepage(strArray)
-    console.log codepage
+    console.log codepage if atom.inDevMode()
     if codepage is "Unknown"
       codepage = "Shift_JIS"  # とりあえず、Shift_JISとして続行する
 
@@ -316,7 +357,7 @@ module.exports =
       if skip > 0
         skip--
         continue
-      console.log index,str
+      console.log index,str if atom.inDevMode()
 
       if bShow
         revalue = @nonInitVarMessage(textEditor, strArray, index)
@@ -345,21 +386,5 @@ module.exports =
         msgs.push revalue.msg
         continue
 
-      ###
-
-      if bShow
-        reval = @nonInitVarMessage(editorPath, str)
-        msgs.push reval if reval
-
-      reval = @errorMessage(textEditor, str, strArray[index+1])
-      msgs.push reval if reval
-
-      reval = @stackErrorMessage(str, strArray[index+1])
-      msgs.push reval if reval
-
-      reval = @criticalErrorMessage(textEditor, str)
-      msgs.push reval if reval
-      ###
-
-    console.log msgs
+    console.log msgs if atom.inDevMode()
     msgs
