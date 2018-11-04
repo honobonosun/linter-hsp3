@@ -30,6 +30,13 @@ module.exports =
           minimum: 204800
           maximum: null
 
+        UsekillQuiotations:
+          order: 4
+          title: 'Delete quotation character'
+          description: 'ソースファイルパスにダブルクオーテーションを付けない。'
+          type: 'boolean'
+          default: true
+
     option:
       order: 2
       title: "Package Option Settings"
@@ -64,6 +71,8 @@ module.exports =
       atom.config.get('linter-hsp3.compiler').LintCommand
     maxLogBuffer: ->
       atom.config.get('linter-hsp3.compiler').maxLogBuffer
+    UsekillQuiotations: ->
+      atom.config.get('linter-hsp3.compiler').UsekillQuiotations
 
     ShowUninitializedVariable: ->
       atom.config.get('linter-hsp3.option').ShowUninitializedVariable

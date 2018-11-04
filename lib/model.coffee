@@ -48,7 +48,8 @@ module.exports =
 
         # まず、String.toLowerCaseが正しく機能するか調べる
         manualLowercase = (s) ->
-          s.replace(/[A-Z]/g, (ch) -> String.fromCharCode(ch.charCodeAt(0) | 32))
+          s.replace(/[A-Z]/g, (ch) ->
+            String.fromCharCode(ch.charCodeAt(0) | 32))
         flag = false
         if 'i' != 'I'.toLowerCase()
           flag = true if manualLowercase(Config.get.path()) is 'wine'
@@ -323,14 +324,22 @@ module.exports =
     }
 
   lint: (textEditor) ->
-    execFileSync = require('child_process').execFileSync
     convertToUTF8 = require('./submodel').convertToUTF8
     try
-      reval = execFileSync(
-        Config.get.path()
-        @Command(textEditor.getPath())
-        {maxBuffer:Config.get.maxLogBuffer()}
-      )
+      option = {maxBuffer: Config.get.maxLogBuffer()}
+      if Config.get.UsekillQuiotations()
+        execSync = require('child_process').execSync
+        reval = execSync(
+          (Config.get.path() + " " + @Command(textEditor.getPath()).join(' ').replace(/\""/g, ""))
+          option
+        )
+      else
+        execFileSync = require('child_process').execFileSync
+        reval = execFileSync(
+          Config.get.path()
+          @Command(textEditor.getPath())
+          option
+        )
     catch error
       atom.notifications.addError(
         "Failed (linter-hsp3)",

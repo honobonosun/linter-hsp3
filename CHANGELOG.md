@@ -10,6 +10,13 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+## 0.0.4 - 2018/11/04
+- hspc.exeがダブルクオーテーションに対応できない問題の迂回策を挿入しました。
+  - language-hsp3(ver 0.1.7)の[プルリクエスト #8](https://github.com/honobonosun/language-hsp3/pull/8)を移植しました。
+  
+## 0.0.3
+- パッケージ公開に失敗したので、もう一度登録しました。
+
 ## 0.0.2
 - atom.ioパッケージへ公開です。
 
