@@ -323,6 +323,43 @@ module.exports =
       }
     }
 
+  undefinedFunctionErrorMessage: (textEditor, codepage, strArray, index) ->
+    #console.log /#関数が定義されていません \[(.+)\]/i.exec(strArray[index])
+    #console.log /(.+)\((\d+)\) : error (\d+) : (.+) \((\d+)行目\)/i.exec(strArray[index+1])
+
+    regexp = /#関数が定義されていません \[(.+)\]/i
+    revalue = regexp.exec(strArray[index])
+    return unless revalue?
+
+    regexp = /(.+)\((\d+)\) : error (\d+) : (.+) \((\d+)行目\)/i
+    revalue2 = regexp.exec(strArray[index+1])
+    return unless revalue2?
+
+    filepath = @claimFullPath(textEditor, revalue2[1])
+    return unless filepath?
+
+    sourceArray = @ToFileArray(filepath, codepage)
+    return unless sourceArray?
+
+    word = revalue[1]
+    row = Number(revalue2[2])-1
+    position = [
+      [row, 0],
+      [row, sourceArray[row].length]
+    ]
+
+    return {
+      skip: 1
+      msg: {
+        location: {
+          file: filepath
+          position: position
+        }
+        severity: 'error'
+        excerpt: @excerpt('関数が定義されていません', word)
+      }
+    }
+
   lint: (textEditor) ->
     convertToUTF8 = require('./submodel').convertToUTF8
     try
@@ -390,6 +427,12 @@ module.exports =
         continue
 
       revalue = @stackErrorMessage(textEditor, codepage, strArray, index)
+      if revalue?
+        skip = revalue.skip
+        msgs.push revalue.msg
+        continue
+
+      revalue = @undefinedFunctionErrorMessage(textEditor, codepage, strArray, index)
       if revalue?
         skip = revalue.skip
         msgs.push revalue.msg
