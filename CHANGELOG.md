@@ -10,6 +10,11 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+## 0.1.0 - 2019/01/09
+- *upgrade* hspc.exeとファイルIOの非同期化を行いました。
+- *feat* 未保存のエディタ内容でも、解析できるようになりました。
+  - ファイルパスがないエディタの場合、'hsptmp'ファイルで結果を出力します。
+
 ## 0.0.5 - 2018/11/19
 - *fix* コンパイルエラー「関数が定義されていません」の取得を実装しました。
 

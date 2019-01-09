@@ -49,22 +49,13 @@ module.exports =
           type: 'boolean'
           default: true
 
+        lintsOnChange:
+          order: 2
+          title: '未保存のエディタを解析する'
+          type: 'boolean'
+          default: true
+
   get:
-    replace: (arr) ->
-      return unless arr?
-
-      subModel = require './submodel'
-      result = new Array()
-      for element,i in arr
-        result.push element.replace(
-          /%FILEPATH%|%PROJECT%/g,
-          (match) ->
-            return subModel.getEditFilepath() if match is '%FILEPATH%'
-            return subModel.getProjectRoot() if match is '%PROJECT%'
-            match
-        )
-      result
-
     path: ->
       atom.config.get('linter-hsp3.compiler').path
     lintCommand: ->
@@ -76,3 +67,5 @@ module.exports =
 
     ShowUninitializedVariable: ->
       atom.config.get('linter-hsp3.option').ShowUninitializedVariable
+    lintsOnChange: ->
+      atom.config.get('linter-hsp3.option').lintsOnChange
