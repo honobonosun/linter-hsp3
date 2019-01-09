@@ -154,7 +154,7 @@ class Hspc
             skip: 0
             msg:
               location:
-                file: @file
+                file: @refFile(@file)
                 position: [[0,0],[0,0]]
               severity: 'info'
               excerpt: "未初期化の変数があります(#{result[1]})"
