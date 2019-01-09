@@ -10,7 +10,7 @@ hspc.exeを使って、linterにエラーなどを通知するパッケージで
 5. Atomを再起動します。（または、<kbd>Ctrl-Shift-F5</kbd>キーを押す）
 
 # 主な機能と動作
-linter-hsp3は、hspファイルまたは、asファイルを保存（<kbd>Ctrl-s</kbd>）するごとに、hspc.exeにコンパイルさせます。コンパイルが失敗したら、linterに通知します。表示はlinterのGUIに委ねられます。
+linter-hsp3は、hspファイルまたは、asファイルを編集するごとに、hspc.exeにコンパイルさせます。コンパイルが失敗したら、linterに通知します。表示はlinterのGUIに委ねられます。
 
 hspc.exeは、コンパイルに成功した場合、axファイルを出力します。このファイルはストレージに保存されます。linter-hsp3を導入すると、hsp,asファイルを保存するたびに、axファイルが作成、保存される場合があることに留意してください。
 
