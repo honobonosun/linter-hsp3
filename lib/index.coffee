@@ -1,21 +1,24 @@
-'use babel'
+config = require './config'
+provider = require './provider'
 
-Model = require './model'
-Config = require './config'
+module.exports = linterhsp3 =
+  config: config.config
 
-module.exports =
-  config: Config.config
   activate: ->
-    return
+
   deactivate: ->
-    return
+
   provideLinter: ->
-    return {
+    {
       name: 'hsp3'
       scope: 'file'
-      lintsOnChange: false
+      lintsOnChange: true
       grammarScopes: ['source.hsp3']
-      lint: (textEditor) ->
-        new Promise (resolve) ->
-          resolve Model.lint(textEditor)
+      lint: (editor) ->
+        new Promise (resolve, reject) ->
+          provider.make editor, (error, result) ->
+            if error?
+              reject error
+            else
+              resolve result
     }
