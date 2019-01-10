@@ -10,6 +10,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+## 0.1.1 - 2019/01/10
+- *fix* `#Error: in line n [file]` 形式の解析に失敗する問題を修正しました。
+
 ## 0.1.0 - 2019/01/09
 - *upgrade* hspc.exeとファイルIOの非同期化を行いました。
 - *feat* 未保存のエディタ内容でも、解析できるようになりました。

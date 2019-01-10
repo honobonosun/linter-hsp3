@@ -304,17 +304,17 @@ class Hspc
         return unless result?
         console.log result if atom.inDevMode()
         msg = do (result, codepage, curdir, commondir) => new Promise (resolve, reject) =>
-          claimFullPath result[3], curdir, commondir, (error, file) =>
+          claimFullPath result[2], curdir, commondir, (error, file) =>
             return reject(error) if error?
             do (resolve, reject, file, codepage, result) =>
-              getWordPos file, codepage, '', Number(result[2])-1, (err, position) =>
+              getWordPos file, codepage, '', Number(result[1])-1, (err, position) =>
                 return reject(err) if err?
                 resolve {
                   location:
                     file: @refFile(file)
                     position: position
                   severity: 'error'
-                  excerpt: "#{result[1]}"
+                  excerpt: "重大なエラーが検出されています"
                 }
         {
           skip: 1
