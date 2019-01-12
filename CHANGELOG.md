@@ -10,6 +10,11 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+## 0.1.2 - 2019/01/12
+- *fix* hsptmpファイルのコードページが崩壊する不具合を修正しました。
+- *fix* hsptmpファイルが保存された時、ファイルパスがコンソールログに出力されていたのを開発者モードのみに抑制しました。
+- *fix* ユーザールートディレクトリの取得に失敗した場合、処理を中断するように修正しました。
+
 ## 0.1.1 - 2019/01/10
 - *fix* `#Error: in line n [file]` 形式の解析に失敗する問題を修正しました。
 

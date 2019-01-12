@@ -9,8 +9,6 @@ Hspc = require './hspc'
 class Provider
 
   @make: (editor, callback) ->
-    console.log 'linter-hsp3 make', editor.isEmpty(), editor.isModified() if atom.inDevMode()
-
     if editor.isEmpty() || editor.isModified()
       Provider.saveHsptmp editor, (error, file) ->
         if error?
@@ -37,20 +35,29 @@ class Provider
 
   # editorの内容を一時ファイルに保存します。
   @saveHsptmp: (editor, callback) ->
-    binary = new Buffer(editor.getBuffer().getText(), 'binary')
+    codepage = editor.getEncoding()
+    unless iconv.encodingExists(codepage)
+      atom.notifications.addWarning(
+        'linter-hsp3',
+        {description: "This is not support #{codepage} codepage."}
+      )
+      callback new Error("This is not support #{codepage} codepage.")
+      return
+    binary = iconv.encode(editor.getBuffer().getText(), codepage)
     if editor.isEmpty()
       # どこにも保存されていないなら、ユーザーディレクトリに。
       userProfile = process.env.USERPROFILE ? null
       unless userProfile?
         callback new Error('non userProfile directory.')
+        return
       else
         file = path.join(userProfile, 'hsptmp')
-        console.log 'save hsptmp', file
+        console.log 'save hsptmp', file if atom.inDevMode()
         callback null, file
     else
       # ファイルパスが有るなら、そのディレクトリに。
       file = path.join(path.dirname(editor.getPath()), 'hsptmp')
-      console.log 'save hsptmp', file
+      console.log 'save hsptmp', file if atom.inDevMode()
     do (file, binary) ->
       fs.writeFile file, binary, (err) ->
         if err?
