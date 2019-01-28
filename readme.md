@@ -12,7 +12,7 @@ hspc.exeを使って、linterにエラーなどを通知するパッケージで
 # 主な機能と動作
 linter-hsp3は、hspファイルまたは、asファイルを編集するごとに、hspc.exeにコンパイルさせます。コンパイルが失敗したら、linterに通知します。表示はlinterのGUIに委ねられます。
 
-hspc.exeは、コンパイルに成功した場合、axファイルを出力します。このファイルはストレージに保存されます。linter-hsp3を導入すると、hsp,asファイルを保存するたびに、axファイルが作成、保存される場合があることに留意してください。
+hspc.exeは、コンパイルに成功した場合、axファイルを出力します。このファイルはストレージに保存されます。linter-hsp3を導入すると、このパッケージの都合でaxファイルが作成と保存する場合があることに留意してください。
 
 既定値では、axファイルは「obj」ファイル名で保存されます。
 
@@ -38,9 +38,8 @@ linter-hsp3 version 0.1.0以降、hspc.exeとファイルIOの非同期化を行
 MIT License  
 Copyright (c) 2017-2018 Honobono
 
-## iconv-lite
-MIT License  
-<https://www.npmjs.com/package/iconv-lite>
+## [iconv-lite](https://www.npmjs.com/package/iconv-lite)
+MIT License
 
 Copyright (c) 2011 Alexander Shtuchkin
 
@@ -62,3 +61,30 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+## [encoding.js](https://github.com/polygonplanet/encoding.js)
+MIT License  
+author : polygon planet <polygon.planet.aqua@gmail.com>
+
+## [async-lock](https://www.npmjs.com/package/async-lock)
+The MIT License (MIT)
+
+Copyright (c) 2016 Rogier Schouten <github@workingcode.ninja>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
