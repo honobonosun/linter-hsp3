@@ -10,6 +10,10 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+## 0.2.0 - 2019/01/28
+- *fix* hsptmpファイルが排他アクセスしていなかったので、読み取りに失敗する場合がありました。排他制御を導入して解決しました。
+- *dev* hspc.exe関係の処理を中心に書き直しました。主にコールバックをPromiseに置き換えました。
+
 ## 0.1.2 - 2019/01/12
 - *fix* hsptmpファイルのコードページが崩壊する不具合を修正しました。
 - *fix* hsptmpファイルが保存された時、ファイルパスがコンソールログに出力されていたのを開発者モードのみに抑制しました。

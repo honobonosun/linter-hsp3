@@ -3,22 +3,15 @@ provider = require './provider'
 
 module.exports = linterhsp3 =
   config: config.config
+  provider: null
 
-  activate: ->
-
-  deactivate: ->
-
+  activate: -> @provider = new provider
+  deactivate: -> @provider.destructor()
   provideLinter: ->
     {
       name: 'hsp3'
       scope: 'file'
-      lintsOnChange: true
+      lintsOnChange: config.get.lintsOnChange()
       grammarScopes: ['source.hsp3']
-      lint: (editor) ->
-        new Promise (resolve, reject) ->
-          provider.make editor, (error, result) ->
-            if error?
-              reject error
-            else
-              resolve result
+      lint: (editor) => @provider.lint(editor)
     }
