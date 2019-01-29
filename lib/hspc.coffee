@@ -6,6 +6,10 @@ encoding = require 'encoding-japanese'
 config = require './config'
 
 class Hspc
+  ###
+  解析するべきエラー文。配列の位置が、hspcが出力して解析中の行から正規表現で
+  マッチを試みます。nullなら、その行を無視します。
+  ###
   @regexps:
     nonFreeStack:   [/#スタックが空になっていないマクロタグが1個あります\s+\[(.+)\]/, /\s*(.+)/i]
     nonFindFile:    [/#(スクリプトファイルが見つかりません) \[(.+)]/, /#Error: in line (\d+) \[(.+)]/i]
@@ -15,6 +19,7 @@ class Hspc
     criticalError2: [/#Error:(.+) in line (\d+) \[(.+)\]/]
     criticalError3: [/#Error: in line (\d+) \[(.+)]/]
 
+  # hspc.exeの-Iオプションで出力される文字を抽出します。
   @getHspcPrm: (stdout) ->
     result = / Current directory : (.+)/g.exec(stdout)
     curdir = result?[1] ? null
@@ -24,12 +29,10 @@ class Hspc
     commondir = result?[1] ? null
     result = / Codepage mode : .+ \( (\S+) \)/ig.exec(stdout)
     codepage = result?[1] ? null
-    # hspcの実装待ち
-    # result = / refname : (.+)/ig.exec(stdout)
-    refname = null
-    {curdir, outName, commondir, codepage, refname}
+    {curdir, outName, commondir, codepage}
 
   # object = {origin, refname, hspc}
+  # file = 絶対パスを求めるファイル名
   @refname: (object, file) -> new Promise (resolve, reject) ->
     if object.origin is file
       object.file = object.refname ? object.origin
@@ -64,7 +67,7 @@ class Hspc
         return reject(new Error('Not support codepage', {codepage: codepage}))
       # 文字の位置を求める
       if object.word?
-        regWord = object.word.replace(/[*+.?^$\-\|\/\\¥()\[\]{}]/g, (word) -> '\\' + word) # 正規表現をエスケープする
+        regWord = object.word.replace(/[*+.?^$\-\|\/\\¥()\[\]{}]/g, (word) -> '\\' + word) # 正規表現の特殊文字をエスケープする
         if data[object.row]?
           column = data[object.row].search(RegExp(regWord, 'ig'))
           if column >= 0
@@ -85,15 +88,12 @@ class Hspc
     ).catch((err) -> reject(err))
 
   @lint: (stdout, file, refname) => new Promise (resolve, reject) =>
-    console.log 'lint', stdout
     hspcPrm = @getHspcPrm(stdout)
-    console.log 'hspcPrm', hspcPrm
 
     fShowNonInitVar = config.get.ShowUninitializedVariable()
     promises = new Array
     skip = 0
     strSplit = stdout.split(/\n/)
-    console.log strSplit
     for string, index in strSplit
       if skip > 0
         skip--
@@ -133,12 +133,13 @@ class Hspc
   @messageLexer: (strSplit, index) =>
     results = new Array
     for key of @regexps
+      results = []  # 空にする
       for regexp, i in @regexps[key]
-        i = Number(i)
-        result = regexp.exec(strSplit[index+i])
+        continue unless regexp?
+        result = regexp.exec(strSplit[index+Number(i)])
         break unless result?
         results.push result
-      break if results.length > 0
+      break if results.length is @regexps[key].length
     if results.length > 0 then {key, results} else null
 
   @getMessage: (strSplit, index, origin, refname, hspcPrm) =>

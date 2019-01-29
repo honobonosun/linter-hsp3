@@ -16,7 +16,6 @@ class Util
   @return <Object>{file: <String>, refname: <String>} - どちらもフルパスで返る
   ###
   @mightSaveTmpFile: (editor) -> new Promise (resolve, reject) ->
-    console.log 'mightSaveTmpFile'
     if editor.isModified()
       codepage = editor.getEncoding()
       reject new Error("not support #{codepage}.") unless iconv.encodingExists(codepage)
@@ -33,8 +32,6 @@ class Util
       resolve({file: editor.getPath()})
 
   @exec: (file, refname) -> new Promise (resolve, reject) =>
-    console.log 'exec'
-    # TODO : hspc v2 --refname option use.
     args = @config.compiler.LintCommand.map((str) -> str.replace(/%FILEPATH%/g, file))
     option =
       cwd: path.dirname(file)
