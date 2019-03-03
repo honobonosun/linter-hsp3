@@ -2,7 +2,7 @@
 このプロジェクトのすべての注目すべき変更は、このファイルに記録されます。
 All notable changes to this project will be documented in this file.
 
-## 0.2.1 - 2019/03/03
+## 0.2.2 - 2019/03/03
 - *fix* [エディタが編集中になると、”未初期化の変数があります”のfile nameがhsptmpを示します。 #9](https://github.com/honobonosun/linter-hsp3/issues/9) を修正しました。
 
 ## 0.2.0 - 2019/01/28
