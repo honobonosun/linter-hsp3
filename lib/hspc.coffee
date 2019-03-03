@@ -100,7 +100,7 @@ class Hspc
         continue
 
       if fShowNonInitVar
-        f = refFile ? file
+        f = refname ? file
         result = @noErrorNonInitVar(string, f)
         if result?
           {skip, msg} = result

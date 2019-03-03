@@ -2,13 +2,8 @@
 このプロジェクトのすべての注目すべき変更は、このファイルに記録されます。
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
-
-### Added
-- [x]必要な情報をhspc.exeに吐かせる。
-- [x]atom.ioに登録する。
-
-### Changed
+## 0.2.1 - 2019/03/03
+- *fix* [エディタが編集中になると、”未初期化の変数があります”のfile nameがhsptmpを示します。 #9](https://github.com/honobonosun/linter-hsp3/issues/9) を修正しました。
 
 ## 0.2.0 - 2019/01/28
 - *fix* hsptmpファイルが排他アクセスしていなかったので、読み取りに失敗する場合がありました。排他制御を導入して解決しました。
