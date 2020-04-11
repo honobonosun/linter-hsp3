@@ -1,6 +1,17 @@
 # Change Log
-このプロジェクトのすべての注目すべき変更は、このファイルに記録されます。
+このプロジェクトのすべての注目すべき変更は、このファイルに記録されます。<br>
 All notable changes to this project will be documented in this file.
+
+## 0.3.0 - 2020/04/09
+- *feat* CoffeeScriptベースのコードをTypeScriptへ移植しました。
+  - 正規表現ベースのコンパイルメッセージ解析器をpotage.tsで書き直しました。
+- *add* wineMode機能を追加しました。
+  - **Ubuntu 19.10 wine-4.0.2 で動作しましたが、この機能の不具合は対応できません。**
+- *add* コマンド実行にシェル経由で実行する機能を追加しました。
+  - *add* `\`文字をエスケープするオプションも追加しました。
+  - *bug* 既知の問題として、シェル経由だと、コマンドの失敗を検出して、使用者へ通知することができません。現状の対応として、何も文字が帰らない症状をこの問題が生じたと断定してエラーとして通知するようにしました。
+  - hspc v1 系のバージョンを使用する場合は、このオプションを有効化してください。
+  - hspc v2 系のバージョンを使用する場合は、このオプションを無効化してください。
 
 ## 0.2.2 - 2019/03/03
 - *fix* [エディタが編集中になると、”未初期化の変数があります”のfile nameがhsptmpを示します。 #9](https://github.com/honobonosun/linter-hsp3/issues/9) を修正しました。
@@ -28,7 +39,7 @@ All notable changes to this project will be documented in this file.
 ## 0.0.4 - 2018/11/04
 - hspc.exeがダブルクオーテーションに対応できない問題の迂回策を挿入しました。
   - language-hsp3(ver 0.1.7)の[プルリクエスト #8](https://github.com/honobonosun/language-hsp3/pull/8)を移植しました。
-  
+
 ## 0.0.3
 - パッケージ公開に失敗したので、もう一度登録しました。
 
