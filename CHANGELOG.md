@@ -2,6 +2,9 @@
 このプロジェクトのすべての注目すべき変更は、このファイルに記録されます。<br>
 All notable changes to this project will be documented in this file.
 
+## 0.3.2 - 2022/10/02
+- *fix* 依存関係のモジュールを更新しました。
+
 ## 0.3.0 - 2020/04/09
 - *feat* CoffeeScriptベースのコードをTypeScriptへ移植しました。
   - 正規表現ベースのコンパイルメッセージ解析器をpotage.tsで書き直しました。
